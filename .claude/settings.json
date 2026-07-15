@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la /Users/nilaysingh/Developer/products/obsly/ && echo \"---\" && ls -la /Users/nilaysingh/Developer/products/obsly/obsly-frontend/)",
+      "Read(//Users/nilaysingh/Developer/products/obsly/**)",
+      "Bash(cd \"/Users/nilaysingh/Developer/products/obsly/obs \\(1\\)\" && ls -la && echo \"=== TREE \\(depth 3, no node_modules\\) ===\" && find . -maxdepth 3 -not -path '*/node_modules*' -not -path '*/.git/*' -not -path '*/.next/*' | head -100)",
+      "Read(//Users/nilaysingh/Developer/products/obsly/obs \\\\\\(1\\\\\\)/**)",
+      "Bash(grep -v \"^\\\\s*$\")",
+      "Bash(npm view *)",
+      "Bash(npm -v)",
+      "Bash(npx --yes create-next-app@latest . --ts --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --turbopack --disable-git --yes)",
+      "Bash(rm README.md)",
+      "Bash(rm -rf src public node_modules README.md .gitignore eslint.config.mjs next-env.d.ts next.config.ts package.json postcss.config.mjs tsconfig.json package-lock.json && ls -la && git status --short)"
+    ],
+    "additionalDirectories": [
+      "/Users/nilaysingh/Developer/products/obsly/obsly-frontend/src",
+      "/Users/nilaysingh/Developer/products/obsly"
+    ]
+  }
+}
