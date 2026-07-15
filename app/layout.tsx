@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
 const hankenGrotesk = Hanken_Grotesk({
   variable: "--font-hanken",
@@ -29,9 +31,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${hankenGrotesk.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={cn("h-full antialiased font-sans", hankenGrotesk.variable, jetbrainsMono.variable)}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
