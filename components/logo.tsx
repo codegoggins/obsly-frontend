@@ -1,10 +1,10 @@
-import { AiFillBug } from "react-icons/ai";
+import { Bug } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // size presets: [box, icon px, text]
 const SIZES = {
   sm: { box: "h-6 w-6 rounded-md", icon: 14, text: "text-sm" },
-  md: { box: "h-7 w-7 rounded-lg", icon: 17, text: "text-[15px]" },
+  md: { box: "h-7 w-7 rounded-lg", icon: 17, text: "text-[0.9375rem]" },
   lg: { box: "h-9 w-9 rounded-xl", icon: 22, text: "text-xl" },
 };
 
@@ -24,7 +24,7 @@ export function Logo({ size = "md", showText = true, className }: LogoProps) {
           s.box,
         )}
       >
-        <AiFillBug size={s.icon} />
+        <Bug size={s.icon} />
       </span>
       {showText && (
         <span className={cn("font-bold tracking-tight lowercase", s.text)}>
