@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { User, Building2, Globe, Mail, Lock, ArrowRight } from "lucide-react";
-import { setToken } from "@/lib/auth";
 import { signupSchema } from "@/lib/validations/auth";
 import { COUNTRIES } from "@/lib/countries";
 import { InputField } from "@/components/ui/input-field";
@@ -52,8 +51,10 @@ export default function SignupPage() {
     }
     setErrors({});
     setBusy(true);
-    setToken();
-    setTimeout(() => router.push("/"), 700);
+    setTimeout(
+      () => router.push(`/otp?reason=verify&next=app&email=${encodeURIComponent(email)}`),
+      600,
+    );
   };
 
   return (

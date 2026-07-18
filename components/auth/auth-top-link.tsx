@@ -8,6 +8,8 @@ const LINKS: Record<string, { q: string; label: string; to: string }> = {
   "/login": { q: "New here?", label: "Create account", to: "/signup" },
   "/signup": { q: "Have an account?", label: "Sign in", to: "/login" },
   "/forgot": { q: "Remembered it?", label: "Sign in", to: "/login" },
+  "/reset": { q: "Back to", label: "Sign in", to: "/login" },
+  "/otp": { q: "Need help?", label: "Sign in", to: "/login" },
 };
 
 export function AuthTopLink() {
