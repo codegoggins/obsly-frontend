@@ -13,7 +13,9 @@
       "Bash(rm -rf src public node_modules README.md .gitignore eslint.config.mjs next-env.d.ts next.config.ts package.json postcss.config.mjs tsconfig.json package-lock.json && ls -la && git status --short)",
       "Bash(grep -o 'name:\"AiFillBug\".\\\\{0,600\\\\}' node_modules/react-icons/ai/index.mjs)",
       "Bash(node -e \"const {AiFillBug}=require\\('react-icons/ai'\\); console.log\\(JSON.stringify\\(AiFillBug\\({}\\).props.children\\).slice\\(0,600\\)\\)\")",
-      "Bash(git mv *)"
+      "Bash(git mv *)",
+      "Bash(npm install *)",
+      "Bash(node -e \"console.log\\('motion', require\\('motion/package.json'\\).version\\)\")"
     ],
     "additionalDirectories": [
       "/Users/nilaysingh/Developer/products/obsly/obsly-frontend/src",

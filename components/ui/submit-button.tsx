@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { Spinner } from "@/components/ui/spinner";
 
 // full-width primary action button with a loading spinner
 type SubmitButtonProps = {
@@ -30,11 +31,7 @@ export function SubmitButton({
         className,
       )}
     >
-      {busy ? (
-        <span className="spin h-4 w-4 rounded-full border-2 border-primary-foreground/40 border-t-primary-foreground" />
-      ) : (
-        children
-      )}
+      {busy ? <Spinner /> : children}
     </button>
   );
 }

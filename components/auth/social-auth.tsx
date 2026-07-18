@@ -10,8 +10,8 @@ export function SocialAuth() {
   const router = useRouter();
   const [busy, setBusy] = useState<string | null>(null);
 
-  // demo: pretend the OAuth round-trip succeeded, then enter the app
   const run = (which: string) => {
+    // demo: pretend the OAuth round-trip succeeded, then enter the app
     setBusy(which);
     setToken();
     setTimeout(() => router.push("/"), 900);

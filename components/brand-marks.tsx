@@ -1,5 +1,4 @@
 // full-color provider logos for social auth buttons
-
 export function GoogleMark({ size = 17 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 48 48" aria-hidden="true">

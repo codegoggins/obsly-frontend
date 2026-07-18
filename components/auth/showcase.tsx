@@ -1,28 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { Sparkles } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { LiveDot } from "@/components/live-dot";
 import { Sparkline } from "@/components/sparkline";
 import { Card } from "@/components/ui/card";
 import { series } from "@/lib/series";
-import { cn } from "@/lib/utils";
 
-type Line = { t: string; tone: "danger" | "warn" | "ok"; meta: string };
+type Line = { id: number; t: string; tone: "danger" | "warn" | "ok"; meta: string };
 
 const LINES: Line[] = [
-  { t: "TypeError in CartSummary.computeTotal", tone: "danger", meta: "OBS-4821 · 412 users" },
-  { t: "p95 latency back under 600ms", tone: "ok", meta: "checkout-api · resolved" },
-  { t: "PaymentDeclinedError spike detected", tone: "warn", meta: "OBS-4815 · 287 users" },
-  { t: "Release 2.14.1 rolled out cleanly", tone: "ok", meta: "no new errors · 1h" },
+  { id: 0, t: "TypeError in CartSummary.computeTotal", tone: "danger", meta: "OBS-4821 · 412 users" },
+  { id: 1, t: "p95 latency back under 600ms", tone: "ok", meta: "checkout-api · resolved" },
+  { id: 2, t: "PaymentDeclinedError spike detected", tone: "warn", meta: "OBS-4815 · 287 users" },
+  { id: 3, t: "Release 2.14.1 rolled out cleanly", tone: "ok", meta: "no new errors · 1h" },
 ];
-
-const DOT: Record<Line["tone"], string> = {
-  danger: "bg-danger",
-  warn: "bg-warn",
-  ok: "bg-ok",
-};
 
 const STATS: [string, string][] = [
   ["2.4M", "events / day"],
@@ -63,24 +57,34 @@ export function Showcase() {
           </p>
         </div>
 
-        <div className="mt-9 space-y-2.5">
-          <div className="flex items-center gap-1.5 text-[0.6875rem] font-semibold uppercase tracking-wider text-muted-foreground/70">
+        <div className="mt-9">
+          <div className="mb-2.5 flex items-center gap-1.5 text-[0.6875rem] font-semibold uppercase tracking-wider text-muted-foreground/70">
             <Sparkles size={12} className="text-primary" /> live incident feed
           </div>
-          {feed.map((l, i) => (
-            <Card
-              key={`${tick}-${i}`}
-              className="fade-up flex items-center gap-3 rounded-xl bg-card/70 px-3.5 py-3 backdrop-blur"
-              style={{ animationDelay: `${i * 80}ms`, opacity: 1 - i * 0.18 }}
-            >
-              <span className={cn("h-2 w-2 shrink-0 rounded-full", DOT[l.tone])} />
-              <div className="min-w-0 flex-1">
-                <div className="truncate font-mono text-[0.78125rem] text-foreground/90">{l.t}</div>
-                <div className="truncate text-[0.6875rem] text-muted-foreground">{l.meta}</div>
-              </div>
-              <Sparkline data={series(20, 14, 22, i * 7 + tick)} tone={l.tone} w={54} h={22} fill={false} />
-            </Card>
-          ))}
+
+          <div className="flex flex-col gap-2.5">
+            <AnimatePresence mode="popLayout" initial={false}>
+              {feed.map((l, i) => (
+                <motion.div
+                  key={l.id}
+                  layout
+                  initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                  animate={{ opacity: 1 - i * 0.18, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.96 }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <Card className="flex items-center gap-3 rounded-xl bg-card/70 px-3.5 py-3 backdrop-blur">
+                    <LiveDot tone={l.tone} size={8} />
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate font-mono text-[0.78125rem] text-foreground/90">{l.t}</div>
+                      <div className="truncate text-[0.6875rem] text-muted-foreground">{l.meta}</div>
+                    </div>
+                    <Sparkline data={series(20, 14, 22, l.id * 7 + 11)} tone={l.tone} w={54} h={22} fill={false} />
+                  </Card>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
         </div>
 
         <div className="mt-9 flex items-center gap-7 border-t border-border pt-6">

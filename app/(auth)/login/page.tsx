@@ -17,8 +17,8 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
 
-  // demo: accept any input, store a token, then enter the app
   const submit = () => {
+    // demo: accept any input, store a token, then enter the app
     setBusy(true);
     setToken();
     setTimeout(() => router.push("/"), 700);

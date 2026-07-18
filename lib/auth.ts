@@ -1,5 +1,4 @@
 // demo auth — swap for real API calls later
-
 export const TOKEN_COOKIE = "obsly_token";
 
 // routes reachable without a token

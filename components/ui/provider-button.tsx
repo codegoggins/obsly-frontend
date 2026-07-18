@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { Spinner } from "@/components/ui/spinner";
 
 // outlined button with a provider logo — used for social login and GitHub connect
 type ProviderButtonProps = {
@@ -30,11 +31,7 @@ export function ProviderButton({
         className,
       )}
     >
-      {busy ? (
-        <span className="spin h-4 w-4 rounded-full border-2 border-muted-foreground/30 border-t-foreground" />
-      ) : (
-        icon
-      )}
+      {busy ? <Spinner /> : icon}
       {label}
     </button>
   );

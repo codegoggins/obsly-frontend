@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from "motion/react";
+
 // shared heading + body wrapper for every auth screen
 type AuthCardProps = {
   eyebrow: string;
@@ -8,7 +12,12 @@ type AuthCardProps = {
 
 export function AuthCard({ eyebrow, title, sub, children }: AuthCardProps) {
   return (
-    <div className="fade-up w-full max-w-100 space-y-6">
+    <motion.div
+      className="w-full max-w-100 space-y-6"
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+    >
       <div>
         <div className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-primary">
           {eyebrow}
@@ -17,6 +26,6 @@ export function AuthCard({ eyebrow, title, sub, children }: AuthCardProps) {
         <p className="mt-2 text-[0.84375rem] leading-relaxed text-muted-foreground">{sub}</p>
       </div>
       {children}
-    </div>
+    </motion.div>
   );
 }
