@@ -4,12 +4,13 @@ import { useState } from "react";
 import { Eye, EyeOff, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// reusable labeled input with optional icon, password toggle, and hint
+// reusable labeled input with optional icon, password toggle, hint, and error
 type InputFieldProps = React.ComponentProps<"input"> & {
   label?: string;
   icon?: LucideIcon;
   right?: React.ReactNode;
   hint?: React.ReactNode;
+  error?: string;
   containerClassName?: string;
 };
 
@@ -18,6 +19,7 @@ export function InputField({
   icon: Icon,
   right,
   hint,
+  error,
   type = "text",
   className,
   containerClassName,
@@ -37,7 +39,10 @@ export function InputField({
       )}
       <div
         className={cn(
-          "flex h-11 items-center gap-2.5 rounded-lg border border-border bg-card px-3 transition focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-ring/30",
+          "flex h-11 items-center gap-2.5 rounded-lg border bg-card px-3 transition focus-within:ring-2",
+          error
+            ? "border-danger/50 focus-within:border-danger focus-within:ring-danger/20"
+            : "border-border focus-within:border-primary/40 focus-within:ring-ring/30",
           containerClassName,
         )}
       >
@@ -60,7 +65,11 @@ export function InputField({
           </button>
         )}
       </div>
-      {hint && <div className="mt-1.5 text-[0.71875rem] text-muted-foreground">{hint}</div>}
+      {error ? (
+        <div className="mt-1.5 text-[0.71875rem] text-danger">{error}</div>
+      ) : hint ? (
+        <div className="mt-1.5 text-[0.71875rem] text-muted-foreground">{hint}</div>
+      ) : null}
     </label>
   );
 }
