@@ -15,3 +15,14 @@ export const loginSchema = z.object({
 });
 
 export type LoginValues = z.infer<typeof loginSchema>;
+
+export const signupSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  company: z.string().min(1, "Company name is required"),
+  country: z.string().min(1, "Please select your country"),
+  email: z.email("Please enter a valid email"),
+  password: passwordSchema,
+  agree: z.boolean().refine((v) => v === true, { message: "You must accept the terms" }),
+});
+
+export type SignupValues = z.infer<typeof signupSchema>;
