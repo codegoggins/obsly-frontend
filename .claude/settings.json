@@ -22,7 +22,12 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/)",
       "Bash(npm run *)",
       "Bash(npx eslint *)",
-      "Bash(echo \"=== lint done \\(exit $?\\) ===\")"
+      "Bash(echo \"=== lint done \\(exit $?\\) ===\")",
+      "Bash(grep -iE \"^react-day-picker$|^date-fns$\")",
+      "Bash(node -e \"console.log\\('react-day-picker', require\\('react-day-picker/package.json'\\).version\\); console.log\\('date-fns', require\\('date-fns/package.json'\\).version\\)\")",
+      "Bash(node -e \"const r=require\\('react-day-picker'\\); console.log\\(Object.keys\\(r\\).filter\\(k=>/^[A-Z]/.test\\(k\\)\\).join\\(', '\\)\\)\")",
+      "Bash(node -e \"const {UI, DayFlag, SelectionState}=require\\('react-day-picker'\\); console.log\\('UI:', JSON.stringify\\(UI\\)\\); console.log\\('DayFlag:', JSON.stringify\\(DayFlag\\)\\); console.log\\('SelectionState:', JSON.stringify\\(SelectionState\\)\\);\")",
+      "Read(//var/folders/46/wl24gtjx1q959dwwzxqc2cz00000gn/T/TemporaryItems/NSIRD_screencaptureui_rD6j8D/**)"
     ],
     "additionalDirectories": [
       "/Users/nilaysingh/Developer/products/obsly/obsly-frontend/src",

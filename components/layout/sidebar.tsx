@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { LayoutGrid, Bug, LineChart, Rocket, Settings, LogOut } from "lucide-react";
@@ -7,6 +8,7 @@ import { clearToken } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/logo";
 import { LiveDot } from "@/components/live-dot";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { OrgSwitcher } from "@/components/layout/org-switcher";
 
 const NAV = [
@@ -24,6 +26,7 @@ function isActive(pathname: string, href: string) {
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const [logoutOpen, setLogoutOpen] = useState(false);
 
   const logout = () => {
     clearToken();
@@ -89,13 +92,22 @@ export function Sidebar() {
           <div className="truncate text-[0.65625rem] text-muted-foreground">mara@acme.io</div>
         </div>
         <button
-          onClick={logout}
+          onClick={() => setLogoutOpen(true)}
           aria-label="Log out"
           className="ring-focus flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-danger/12 hover:text-danger"
         >
           <LogOut size={16} />
         </button>
       </div>
+
+      <ConfirmDialog
+        open={logoutOpen}
+        onOpenChange={setLogoutOpen}
+        title="Log out"
+        description="You'll need to sign in again to access your projects."
+        confirmLabel="Log out"
+        onConfirm={logout}
+      />
     </aside>
   );
 }

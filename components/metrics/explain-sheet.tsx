@@ -22,7 +22,7 @@ export function ExplainSheet({ metric, onClose }: ExplainSheetProps) {
 
   const openIssue = () => {
     onClose();
-    router.push("/issues");
+    router.push("/issues/OBS-4821");
   };
 
   return (
@@ -30,7 +30,7 @@ export function ExplainSheet({ metric, onClose }: ExplainSheetProps) {
       {metric && anomaly && (
         <SheetContent icon={Sparkles} title="AI metric explanation" subtitle={metric.name}>
           <div className="space-y-5">
-            <div className="rounded-lg border border-warn/25 bg-warn/[0.06] p-3.5">
+            <div className="rounded-lg border border-warn/25 bg-warn/6 p-3.5">
               <div className="mb-1 flex items-center gap-1.5 text-[0.71875rem] font-semibold text-warn">
                 <Sparkles size={12} /> Anomaly · 14:05
               </div>

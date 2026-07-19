@@ -1,14 +1,16 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
+import { eachDayOfInterval, format, parseISO } from "date-fns";
 import { Send, ChevronDown, Check, VolumeX, User, X, Sparkles } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Segmented } from "@/components/ui/segmented";
 import { SearchInput } from "@/components/ui/search-input";
-import { RangePicker } from "@/components/ui/range-picker";
+import { DateRangeFilter } from "@/components/issues/date-range-filter";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -18,6 +20,8 @@ import {
 import { cn } from "@/lib/utils";
 import { ISSUES } from "@/lib/mock/issues";
 import { IssueRow, ROW_GRID } from "@/components/issues/issue-row";
+import { ExportDialog } from "@/components/issues/export-dialog";
+import { AssignDialog } from "@/components/issues/assign-dialog";
 
 type SortCol = "events" | "users";
 type Sort = { col: SortCol; dir: "asc" | "desc" };
@@ -27,6 +31,17 @@ const LEVELS = [
   { value: "error", label: "Errors" },
   { value: "warning", label: "Warnings" },
 ];
+
+// deterministic day → issue mapping (mock data has no real per-event timestamps)
+function issueOnDate(date: string, id: string) {
+  const h = [...(date + id)].reduce((a, c) => a + c.charCodeAt(0), 0);
+  return h % 3 !== 0;
+}
+
+// an issue is in range if it surfaced on any day of the selected window
+function issueInRange(from: string, to: string, id: string) {
+  return eachDayOfInterval({ start: parseISO(from), end: parseISO(to) }).some((d) => issueOnDate(format(d, "yyyy-MM-dd"), id));
+}
 
 function SortHeader({ label, col, sort, setSort }: { label: string; col: SortCol; sort: Sort; setSort: (s: Sort) => void }) {
   const active = sort.col === col;
@@ -44,33 +59,57 @@ function SortHeader({ label, col, sort, setSort }: { label: string; col: SortCol
   );
 }
 
-export function IssuesView() {
+export function IssuesView({ from, to }: { from: string | null; to: string | null }) {
+  const router = useRouter();
   const [status, setStatus] = useState("unresolved");
   const [level, setLevel] = useState("all");
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<Sort>({ col: "events", dir: "desc" });
   const [sel, setSel] = useState<Set<string>>(new Set());
+  const [exportOpen, setExportOpen] = useState(false);
+  const [assignOpen, setAssignOpen] = useState(false);
+  const [assignDraft, setAssignDraft] = useState<string | null>(null);
+  const [confirm, setConfirm] = useState<{ title: string; description: React.ReactNode; confirmLabel: string; destructive?: boolean; onConfirm: () => void } | null>(null);
 
   const filtered = useMemo(() => {
     let rows = ISSUES.slice();
     if (status !== "all") rows = rows.filter((i) => i.status === status);
     if (level !== "all") rows = rows.filter((i) => i.level === level);
+    if (from) rows = rows.filter((i) => issueInRange(from, to ?? from, i.id));
     if (query.trim()) {
       const q = query.toLowerCase();
       rows = rows.filter((i) => (i.type + i.title + i.culprit + i.id).toLowerCase().includes(q));
     }
     const dir = sort.dir === "desc" ? -1 : 1;
     return rows.sort((a, b) => (a[sort.col] - b[sort.col]) * dir);
-  }, [status, level, query, sort]);
+  }, [status, level, query, sort, from, to]);
 
   const toggle = (id: string) =>
     setSel((s) => {
       const n = new Set(s);
-      n.has(id) ? n.delete(id) : n.add(id);
+      if (n.has(id)) n.delete(id);
+      else n.add(id);
       return n;
     });
   const allSel = filtered.length > 0 && filtered.every((i) => sel.has(i.id));
   const toggleAll = () => setSel(allSel ? new Set() : new Set(filtered.map((i) => i.id)));
+
+  const bulkNoun = (n: number) => (n === 1 ? "issue" : "issues");
+  const askBulkResolve = () =>
+    setConfirm({
+      title: "Resolve issues",
+      description: <>Mark {sel.size} selected {bulkNoun(sel.size)} as resolved?</>,
+      confirmLabel: "Resolve",
+      onConfirm: () => setSel(new Set()),
+    });
+  const askBulkIgnore = () =>
+    setConfirm({
+      title: "Ignore issues",
+      description: <>Ignore {sel.size} selected {bulkNoun(sel.size)}? You&apos;ll stop getting alerts for them.</>,
+      confirmLabel: "Ignore",
+      destructive: true,
+      onConfirm: () => setSel(new Set()),
+    });
 
   const counts = useMemo(() => {
     const unres = ISSUES.filter((i) => i.status === "unresolved");
@@ -100,8 +139,12 @@ export function IssuesView() {
           <p className="mt-0.5 text-sm text-muted-foreground">web-storefront · production · grouped by fingerprint</p>
         </div>
         <div className="flex items-center gap-2">
-          <RangePicker />
-          <Button variant="secondary" size="lg">
+          <DateRangeFilter
+            from={from}
+            to={to}
+            onChange={(range) => router.push(range ? `/issues?from=${range.from}&to=${range.to}` : "/issues")}
+          />
+          <Button variant="secondary" size="lg" onClick={() => setExportOpen(true)}>
             <Send size={14} /> Export
           </Button>
         </div>
@@ -160,13 +203,20 @@ export function IssuesView() {
           >
             <span className="text-[0.78125rem] font-medium">{sel.size} selected</span>
             <div className="ml-auto flex items-center gap-1.5">
-              <Button variant="secondary" size="sm">
+              <Button variant="secondary" size="sm" onClick={askBulkResolve}>
                 <Check size={13} /> Resolve
               </Button>
-              <Button variant="secondary" size="sm">
+              <Button variant="secondary" size="sm" onClick={askBulkIgnore}>
                 <VolumeX size={13} /> Ignore
               </Button>
-              <Button variant="secondary" size="sm">
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => {
+                  setAssignDraft(null);
+                  setAssignOpen(true);
+                }}
+              >
                 <User size={13} /> Assign
               </Button>
               <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={() => setSel(new Set())}>
@@ -228,6 +278,28 @@ export function IssuesView() {
           <Sparkles size={12} className="text-primary" /> Sorted by AI relevance is available in settings
         </span>
       </div>
+
+      <ExportDialog open={exportOpen} onOpenChange={setExportOpen} scopeLabel={`${sel.size || filtered.length} issues`} />
+      <AssignDialog
+        open={assignOpen}
+        onOpenChange={setAssignOpen}
+        subtitle={`Assign ${sel.size} selected ${bulkNoun(sel.size)}.`}
+        value={assignDraft}
+        onChange={setAssignDraft}
+        onSave={() => {
+          setAssignOpen(false);
+          setSel(new Set());
+        }}
+      />
+      <ConfirmDialog
+        open={!!confirm}
+        onOpenChange={(o) => !o && setConfirm(null)}
+        title={confirm?.title ?? ""}
+        description={confirm?.description}
+        confirmLabel={confirm?.confirmLabel ?? "Confirm"}
+        destructive={confirm?.destructive}
+        onConfirm={() => confirm?.onConfirm()}
+      />
     </div>
   );
 }

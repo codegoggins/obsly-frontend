@@ -29,11 +29,11 @@ export function ErrorVolume() {
         anomalies={ERROR_ANOMALY}
         xlabels={["00:00", "06:00", "12:00", "18:00", "now"]}
       />
-      <div className="mt-3 flex items-center gap-2 rounded-lg border border-warn/20 bg-warn/[0.06] px-3 py-2 text-[0.75rem]">
+      <div className="mt-3 flex items-center gap-2 rounded-lg border border-warn/20 bg-warn/6 px-3 py-2 text-[0.75rem]">
         <Sparkles size={14} className="shrink-0 text-warn" />
         <span className="text-foreground/85">
           <span className="font-medium">Anomaly at 14:00 —</span> errors jumped 3.1× above the predicted band. Likely cause:{" "}
-          <Link href="/issues" className="font-medium text-primary underline-offset-2 hover:underline">
+          <Link href="/issues/OBS-4821" className="font-medium text-primary underline-offset-2 hover:underline">
             empty cart on /checkout
           </Link>
           .

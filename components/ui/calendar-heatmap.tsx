@@ -2,6 +2,7 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip";
+import { cn } from "@/lib/utils";
 import type { YearActivity, ActivityCell } from "@/lib/mock/activity";
 
 const TONE = {
@@ -17,9 +18,10 @@ const GAP = 3;
 type CalendarHeatmapProps = {
   activity: YearActivity;
   tone?: keyof typeof TONE;
+  onSelect?: (cell: ActivityCell) => void;
 };
 
-export function CalendarHeatmap({ activity, tone = "danger" }: CalendarHeatmapProps) {
+export function CalendarHeatmap({ activity, tone = "danger", onSelect }: CalendarHeatmapProps) {
   const { weeks, months } = activity;
   const wrap = useRef<HTMLDivElement>(null);
   const [w, setW] = useState(0);
@@ -77,7 +79,11 @@ export function CalendarHeatmap({ activity, tone = "danger" }: CalendarHeatmapPr
                       key={ri}
                       onMouseEnter={(e) => setActive({ cell, el: e.currentTarget })}
                       onMouseLeave={() => setActive(null)}
-                      className="rounded-[2px] transition-[outline] outline-1 outline-transparent hover:outline-foreground/40"
+                      onClick={() => onSelect?.(cell)}
+                      className={cn(
+                        "rounded-[2px] outline-1 outline-transparent transition-[outline] hover:outline-foreground/40",
+                        onSelect && "cursor-pointer",
+                      )}
                       style={{ width: cs, height: cs, background: cellColor(cell.count) }}
                     />
                   ) : (

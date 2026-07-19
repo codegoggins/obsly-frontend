@@ -25,7 +25,7 @@ export function TopIssues() {
         {top.map((issue) => (
           <Link
             key={issue.id}
-            href="/issues"
+            href={`/issues/${issue.id}`}
             className="group flex items-center gap-3 rounded-lg px-2.5 py-2.5 transition-colors hover:bg-accent"
           >
             <span

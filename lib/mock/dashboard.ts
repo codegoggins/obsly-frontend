@@ -50,7 +50,7 @@ export const INSIGHTS: Insight[] = [
     title: "Errors tripled at 2:00pm",
     body: "A new TypeError on /checkout is responsible for 88% of the spike. It correlates 1:1 with release 2.14.0 rolling out to 50% of traffic.",
     cta: "Open root cause",
-    href: "/issues",
+    href: "/issues/OBS-4821",
   },
   {
     tone: "warn",
@@ -66,7 +66,7 @@ export const INSIGHTS: Insight[] = [
     title: "One user hit 9 different errors",
     body: "user_8841 is generating noise across 4 issues — likely a corrupted local session, not a product bug. Consider grouping.",
     cta: "Inspect session",
-    href: "/issues",
+    href: "/issues/OBS-4815",
   },
   {
     tone: "brand",
@@ -74,7 +74,7 @@ export const INSIGHTS: Insight[] = [
     title: "OBS-4711 looks resolved",
     body: "No new events for RangeError in deepClone since the 2.13.4 hotfix 2 days ago. Safe to auto-resolve.",
     cta: "Resolve issue",
-    href: "/issues",
+    href: "/issues/OBS-4711",
   },
 ];
 

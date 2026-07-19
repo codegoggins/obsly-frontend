@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowUp, ArrowDown, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Sparkline } from "@/components/sparkline";
@@ -28,7 +29,7 @@ export function IssueRow({ issue, selected, onToggle }: IssueRowProps) {
       className={cn(
         ROW_GRID,
         "border-b border-border px-3 py-3 transition-colors last:border-0 hover:bg-accent/60",
-        selected && "bg-primary/[0.06]",
+        selected && "bg-primary/6",
       )}
     >
       {/* select */}
@@ -42,11 +43,11 @@ export function IssueRow({ issue, selected, onToggle }: IssueRowProps) {
       </label>
 
       {/* identity */}
-      <div className="flex min-w-0 items-start gap-3">
+      <Link href={`/issues/${issue.id}`} className="group/row flex min-w-0 items-start gap-3">
         <span className={cn("mt-1 h-9 w-1 shrink-0 rounded-full", issue.level === "error" ? "bg-danger" : "bg-warn")} />
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-            <span className="shrink-0 font-mono text-[0.78125rem] font-semibold text-foreground">{issue.type}</span>
+            <span className="shrink-0 font-mono text-[0.78125rem] font-semibold text-foreground group-hover/row:underline">{issue.type}</span>
             <Badge tone="outline" className="shrink-0 font-mono">
               {issue.id}
             </Badge>
@@ -66,7 +67,7 @@ export function IssueRow({ issue, selected, onToggle }: IssueRowProps) {
             <span className="shrink-0 rounded bg-muted px-1.5 py-px">{issue.release}</span>
           </div>
         </div>
-      </div>
+      </Link>
 
       {/* trend */}
       <div className="flex items-center justify-center">
