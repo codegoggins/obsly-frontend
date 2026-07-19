@@ -33,6 +33,9 @@
   --warn: 35 92% 50%;
   --ok: 160 70% 38%;
 
+  /* chart gridlines */
+  --grid: 240 6% 90%;
+
   /* shadcn-expected tokens, pointed at our palette so it's one theme */
   --destructive: hsl(var(--danger));
   --destructive-foreground: 0 0% 100%;
@@ -78,6 +81,8 @@
   --danger: 0 84% 64%;
   --warn: 36 96% 58%;
   --ok: 158 64% 52%;
+
+  --grid: 240 6% 16%;
 }
 
 /* map our tokens onto Tailwind so bg-background, text-primary, etc. work */

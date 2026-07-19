@@ -1,51 +1,61 @@
-import { Bug, Flame, Clock, Zap } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { Bug, Flame, Clock, Zap, type LucideIcon } from "lucide-react";
+import { StatCard } from "@/components/ui/stat-card";
+import { OverviewToolbar } from "@/components/overview/overview-toolbar";
+import { AiHero } from "@/components/overview/ai-hero";
+import { ErrorVolume } from "@/components/overview/error-volume";
+import { TopIssues } from "@/components/overview/top-issues";
+import { IssueFrequency } from "@/components/overview/issue-frequency";
+import { Insights } from "@/components/overview/insights";
+import { ProjectHealth } from "@/components/overview/project-health";
+import { KPIS, type Kpi } from "@/lib/mock/dashboard";
 
 export const metadata = { title: "Overview" };
 
-const KPIS = [
-  { label: "Errors (24h)", value: "3,142", icon: Bug },
-  { label: "Error rate", value: "1.7%", icon: Flame },
-  { label: "P95 latency", value: "842ms", icon: Clock },
-  { label: "Apdex", value: "0.94", icon: Zap },
-];
+const KPI_ICONS: Record<Kpi["icon"], LucideIcon> = { bug: Bug, flame: Flame, clock: Clock, zap: Zap };
 
-export default function DashboardPage() {
+export default function OverviewPage() {
   return (
-    <div className="mx-auto max-w-6xl space-y-5">
-      <div>
-        <h1 className="text-[1.375rem] font-bold tracking-tight">Overview</h1>
-        <p className="mt-0.5 text-sm text-muted-foreground">
-          web-storefront · production · last 24 hours
-        </p>
+    <div className="mx-auto max-w-295 space-y-5">
+      {/* page head */}
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="text-[1.375rem] font-bold tracking-tight">Overview</h1>
+          <p className="mt-0.5 text-sm text-muted-foreground">web-storefront · production · last 24 hours</p>
+        </div>
+        <OverviewToolbar />
       </div>
 
+      <AiHero />
+
+      {/* KPI row */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {KPIS.map((kpi) => (
-          <Card key={kpi.label} className="p-4">
-            <div className="flex items-center gap-2 text-[0.78125rem] font-medium text-muted-foreground">
-              <kpi.icon size={14} /> {kpi.label}
-            </div>
-            <div className="mt-2 font-mono text-[1.625rem] font-semibold tracking-tight">
-              {kpi.value}
-            </div>
-          </Card>
+          <StatCard
+            key={kpi.label}
+            icon={KPI_ICONS[kpi.icon]}
+            label={kpi.label}
+            value={kpi.value}
+            delta={kpi.delta}
+            deltaGood={kpi.deltaGood}
+            sub={kpi.sub}
+            tone={kpi.tone}
+            spark={kpi.spark}
+          />
         ))}
       </div>
 
+      {/* error volume + top issues */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <Card className="p-5 lg:col-span-2">
-          <div className="text-sm font-semibold">Error volume</div>
-          <div className="mt-4 flex h-52 items-center justify-center rounded-lg border border-dashed border-border text-sm text-muted-foreground">
-            Chart coming soon
-          </div>
-        </Card>
-        <Card className="p-5">
-          <div className="text-sm font-semibold">Top issues</div>
-          <div className="mt-4 flex h-52 items-center justify-center rounded-lg border border-dashed border-border text-sm text-muted-foreground">
-            Issues list coming soon
-          </div>
-        </Card>
+        <ErrorVolume />
+        <TopIssues />
+      </div>
+
+      <IssueFrequency />
+
+      {/* AI insights + project health */}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <Insights />
+        <ProjectHealth />
       </div>
     </div>
   );

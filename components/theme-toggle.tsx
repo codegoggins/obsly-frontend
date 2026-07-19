@@ -1,25 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
 
+// icons are driven by the `.dark` class (pure CSS), so they cross-fade + rotate
+// smoothly without waiting for JS — no mounted guard or hydration flash needed
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
 
-  // theme is only known in the browser, so wait until after mount
-  useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
-
-  const isDark = resolvedTheme === "dark";
   return (
     <button
-      onClick={() => setTheme(isDark ? "light" : "dark")}
+      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
       aria-label="Toggle theme"
-      className="ring-focus flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+      className="ring-focus relative flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
     >
-      {isDark ? <Sun size={17} /> : <Moon size={17} />}
+      <Sun
+        size={17}
+        className="rotate-0 scale-100 transition-all duration-500 ease-out dark:-rotate-90 dark:scale-0"
+      />
+      <Moon
+        size={17}
+        className="absolute rotate-90 scale-0 transition-all duration-500 ease-out dark:rotate-0 dark:scale-100"
+      />
     </button>
   );
 }
