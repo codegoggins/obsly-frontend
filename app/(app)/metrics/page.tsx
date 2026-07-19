@@ -1,7 +1,7 @@
-import { ComingSoon } from "@/components/coming-soon";
+import { MetricsView } from "@/components/metrics/metrics-view";
 
 export const metadata = { title: "Metrics" };
 
 export default function MetricsPage() {
-  return <ComingSoon title="Metrics" subtitle="Custom time-series for your services" />;
+  return <MetricsView />;
 }
