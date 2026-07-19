@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Building2, Users, ShieldCheck, Layers, Bell, MonitorSmartphone, Palette, UserRound, type LucideIcon } from "lucide-react";
+import { Building2, Users, ShieldCheck, Bell, MonitorSmartphone, Palette, UserRound, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Organization } from "@/components/settings/organization";
 import { Members } from "@/components/settings/members";
 import { Roles } from "@/components/settings/roles";
-import { Projects } from "@/components/settings/projects";
 import { Notifications } from "@/components/settings/notifications";
 import { Sessions } from "@/components/settings/sessions";
 import { Appearance } from "@/components/settings/appearance";
@@ -16,7 +15,6 @@ const NAV: { key: string; label: string; icon: LucideIcon; panel: React.ReactNod
   { key: "organization", label: "Organization", icon: Building2, panel: <Organization /> },
   { key: "members", label: "Members", icon: Users, panel: <Members /> },
   { key: "roles", label: "Roles", icon: ShieldCheck, panel: <Roles /> },
-  { key: "projects", label: "Projects", icon: Layers, panel: <Projects /> },
   { key: "notifications", label: "Notifications", icon: Bell, panel: <Notifications /> },
   { key: "sessions", label: "Sessions", icon: MonitorSmartphone, panel: <Sessions /> },
   { key: "appearance", label: "Appearance", icon: Palette, panel: <Appearance /> },

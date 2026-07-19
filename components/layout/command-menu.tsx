@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
-import { Sparkles, ArrowRight, LayoutGrid, Bug, LineChart, Rocket, Settings } from "lucide-react";
+import { Sparkles, ArrowRight, LayoutGrid, FolderKanban, Bug, LineChart, Rocket, Settings } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
 
 const SUGGESTIONS = [
@@ -16,6 +16,7 @@ const SUGGESTIONS = [
 
 const NAV = [
   { label: "Go to Dashboard", href: "/", kbd: "D", icon: LayoutGrid },
+  { label: "Open Projects", href: "/projects", kbd: "R", icon: FolderKanban },
   { label: "Open Issues", href: "/issues", kbd: "I", icon: Bug },
   { label: "Open Metrics", href: "/metrics", kbd: "M", icon: LineChart },
   { label: "Project setup", href: "/onboarding", kbd: "P", icon: Rocket },

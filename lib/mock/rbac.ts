@@ -17,6 +17,7 @@ export const PERMISSION_GROUPS: PermissionGroup[] = [
     icon: "nav",
     permissions: [
       { key: "nav:overview", label: "Overview", hint: "See the dashboard" },
+      { key: "nav:projects", label: "Projects" },
       { key: "nav:issues", label: "Issues" },
       { key: "nav:metrics", label: "Metrics" },
       { key: "nav:setup", label: "Setup" },
@@ -116,7 +117,7 @@ export const DEFAULT_ROLES: Role[] = [
     description: "Triage and resolve issues across assigned projects.",
     color: "warn",
     members: 2,
-    permissions: ["nav:overview", "nav:issues", "nav:metrics", "issues:resolve", "issues:assign", "metrics:manage"],
+    permissions: ["nav:overview", "nav:projects", "nav:issues", "nav:metrics", "issues:resolve", "issues:assign", "metrics:manage"],
   },
   {
     id: "viewer",
@@ -124,6 +125,6 @@ export const DEFAULT_ROLES: Role[] = [
     description: "Read-only access to assigned projects.",
     color: "muted-foreground",
     members: 1,
-    permissions: ["nav:overview", "nav:issues", "nav:metrics"],
+    permissions: ["nav:overview", "nav:projects", "nav:issues", "nav:metrics"],
   },
 ];

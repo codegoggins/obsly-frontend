@@ -27,11 +27,13 @@
       "Bash(node -e \"console.log\\('react-day-picker', require\\('react-day-picker/package.json'\\).version\\); console.log\\('date-fns', require\\('date-fns/package.json'\\).version\\)\")",
       "Bash(node -e \"const r=require\\('react-day-picker'\\); console.log\\(Object.keys\\(r\\).filter\\(k=>/^[A-Z]/.test\\(k\\)\\).join\\(', '\\)\\)\")",
       "Bash(node -e \"const {UI, DayFlag, SelectionState}=require\\('react-day-picker'\\); console.log\\('UI:', JSON.stringify\\(UI\\)\\); console.log\\('DayFlag:', JSON.stringify\\(DayFlag\\)\\); console.log\\('SelectionState:', JSON.stringify\\(SelectionState\\)\\);\")",
-      "Read(//var/folders/46/wl24gtjx1q959dwwzxqc2cz00000gn/T/TemporaryItems/NSIRD_screencaptureui_rD6j8D/**)"
+      "Read(//var/folders/46/wl24gtjx1q959dwwzxqc2cz00000gn/T/TemporaryItems/NSIRD_screencaptureui_rD6j8D/**)",
+      "Bash(mkdir -p \"app/\\(app\\)/projects/[id]\")"
     ],
     "additionalDirectories": [
       "/Users/nilaysingh/Developer/products/obsly/obsly-frontend/src",
-      "/Users/nilaysingh/Developer/products/obsly"
+      "/Users/nilaysingh/Developer/products/obsly",
+      "/Users/nilaysingh/Developer/products/obsly/obsly-frontend/app/(app)/projects"
     ]
   }
 }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutGrid, Bug, LineChart, Rocket, Settings, LogOut } from "lucide-react";
+import { LayoutGrid, FolderKanban, Bug, LineChart, Rocket, Settings, LogOut } from "lucide-react";
 import { clearToken } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/logo";
@@ -13,6 +13,7 @@ import { OrgSwitcher } from "@/components/layout/org-switcher";
 
 const NAV = [
   { href: "/", label: "Overview", icon: LayoutGrid },
+  { href: "/projects", label: "Projects", icon: FolderKanban },
   { href: "/issues", label: "Issues", icon: Bug, badge: "5" },
   { href: "/metrics", label: "Metrics", icon: LineChart },
   { href: "/onboarding", label: "Setup", icon: Rocket },
