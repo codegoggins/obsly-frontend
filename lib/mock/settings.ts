@@ -25,7 +25,8 @@ export const SETTINGS_PROJECTS: ProjectRow[] = [
   { id: "edge-workers", name: "edge-workers", platform: "Cloudflare", env: "staging", status: "healthy", members: 2, events: "8k" },
 ];
 
-export type MemberRole = "Owner" | "Admin" | "Member" | "Viewer";
+// role is a free string so custom RBAC roles work; project ids scope visibility
+export type MemberRole = string;
 
 export type Member = {
   id: string;
@@ -35,14 +36,15 @@ export type Member = {
   initials: string;
   tone: string;
   lastActive: string;
+  projects: string[]; // assigned project ids
 };
 
 export const MEMBERS: Member[] = [
-  { id: "mara", name: "Mara Reyes", email: "mara@acme.io", role: "Owner", initials: "MR", tone: "bg-primary/15 text-primary", lastActive: "now" },
-  { id: "dev", name: "Dev Patel", email: "dev@acme.io", role: "Admin", initials: "DV", tone: "bg-warn/15 text-warn", lastActive: "12m ago" },
-  { id: "sara", name: "Sara Lin", email: "sara@acme.io", role: "Member", initials: "SL", tone: "bg-ok/15 text-ok", lastActive: "2h ago" },
-  { id: "tom", name: "Tom Okafor", email: "tom@acme.io", role: "Member", initials: "TO", tone: "bg-danger/15 text-danger", lastActive: "1d ago" },
-  { id: "nina", name: "Nina Costa", email: "nina@acme.io", role: "Viewer", initials: "NC", tone: "bg-primary/15 text-primary", lastActive: "3d ago" },
+  { id: "mara", name: "Mara Reyes", email: "mara@acme.io", role: "Owner", initials: "MR", tone: "bg-primary/15 text-primary", lastActive: "now", projects: ["web-storefront", "checkout-api", "mobile-ios", "edge-workers"] },
+  { id: "dev", name: "Dev Patel", email: "dev@acme.io", role: "Admin", initials: "DV", tone: "bg-warn/15 text-warn", lastActive: "12m ago", projects: ["web-storefront", "checkout-api", "mobile-ios", "edge-workers"] },
+  { id: "sara", name: "Sara Lin", email: "sara@acme.io", role: "Member", initials: "SL", tone: "bg-ok/15 text-ok", lastActive: "2h ago", projects: ["web-storefront", "checkout-api"] },
+  { id: "tom", name: "Tom Okafor", email: "tom@acme.io", role: "Member", initials: "TO", tone: "bg-danger/15 text-danger", lastActive: "1d ago", projects: ["web-storefront"] },
+  { id: "nina", name: "Nina Costa", email: "nina@acme.io", role: "Viewer", initials: "NC", tone: "bg-primary/15 text-primary", lastActive: "3d ago", projects: ["mobile-ios"] },
 ];
 
 export type Invite = {
@@ -56,8 +58,6 @@ export const INVITES: Invite[] = [
   { id: "i1", email: "arjun@acme.io", role: "Member", sentAgo: "sent 2d ago" },
   { id: "i2", email: "lea@contractor.dev", role: "Viewer", sentAgo: "sent 5h ago" },
 ];
-
-export const ROLES: MemberRole[] = ["Owner", "Admin", "Member", "Viewer"];
 
 export type Session = {
   id: string;

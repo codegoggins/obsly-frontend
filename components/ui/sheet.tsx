@@ -16,10 +16,11 @@ type SheetContentProps = React.ComponentProps<typeof DialogPrimitive.Popup> & {
   title: string;
   subtitle?: string;
   icon?: LucideIcon;
+  footer?: React.ReactNode;
 };
 
 // right-hand slide-over built on Base UI Dialog (backdrop + focus trap included)
-function SheetContent({ title, subtitle, icon: Icon, className, children, ...props }: SheetContentProps) {
+function SheetContent({ title, subtitle, icon: Icon, footer, className, children, ...props }: SheetContentProps) {
   return (
     <DialogPrimitive.Portal>
       <DialogPrimitive.Backdrop className="fixed inset-0 z-80 bg-black/45 backdrop-blur-[1px] transition-opacity duration-300 data-ending-style:opacity-0 data-starting-style:opacity-0" />
@@ -47,6 +48,7 @@ function SheetContent({ title, subtitle, icon: Icon, className, children, ...pro
           </DialogPrimitive.Close>
         </div>
         <div className="flex-1 overflow-y-auto p-5">{children}</div>
+        {footer && <div className="flex items-center justify-end gap-2 border-t border-border px-5 py-3">{footer}</div>}
       </DialogPrimitive.Popup>
     </DialogPrimitive.Portal>
   );

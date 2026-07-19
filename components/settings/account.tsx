@@ -1,10 +1,19 @@
+"use client";
+
+import { useState } from "react";
 import { UserRound, Trash2, ShieldCheck } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { ImageUploadDialog } from "@/components/ui/image-upload-dialog";
 import { SettingRow, Avatar } from "@/components/settings/setting-row";
 
 export function Account() {
+  const [avatar, setAvatar] = useState<string | undefined>(undefined);
+  const [avatarOpen, setAvatarOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
   return (
     <div className="space-y-4">
       <div>
@@ -14,12 +23,12 @@ export function Account() {
 
       <Card className="p-5">
         <div className="flex items-center gap-4 border-b border-border pb-4">
-          <Avatar initials="MR" size={56} />
+          <Avatar initials="MR" size={56} src={avatar} />
           <div className="flex-1">
             <div className="text-sm font-semibold">Mara Reyes</div>
             <div className="text-[0.78125rem] text-muted-foreground">mara@acme.io · Owner</div>
           </div>
-          <Button variant="secondary">
+          <Button variant="secondary" onClick={() => setAvatarOpen(true)}>
             <UserRound size={14} /> Change avatar
           </Button>
         </div>
@@ -43,11 +52,31 @@ export function Account() {
 
       <Card className="border-danger/25 p-5">
         <SettingRow label="Delete account" hint="Permanently remove your account and all data.">
-          <Button variant="destructive" size="sm">
+          <Button variant="destructive" size="sm" onClick={() => setDeleteOpen(true)}>
             <Trash2 size={14} /> Delete
           </Button>
         </SettingRow>
       </Card>
+
+      <ImageUploadDialog
+        open={avatarOpen}
+        onOpenChange={setAvatarOpen}
+        title="Change avatar"
+        description="Upload a photo for your profile."
+        shape="circle"
+        onSave={setAvatar}
+      />
+
+      <ConfirmDialog
+        open={deleteOpen}
+        onOpenChange={setDeleteOpen}
+        title="Delete account"
+        description="This permanently removes your account, sessions, and personal data. As the Owner, transfer or delete the organization first if needed."
+        confirmLabel="Delete account"
+        destructive
+        requireText="delete"
+        onConfirm={() => {}}
+      />
     </div>
   );
 }

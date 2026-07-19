@@ -19,8 +19,16 @@ export function SettingRow({ label, hint, children }: SettingRowProps) {
   );
 }
 
-// gradient initials avatar used across members / account / org
-export function Avatar({ initials, tone, size = 28 }: { initials: string; tone?: string; size?: number }) {
+// gradient initials avatar (or an uploaded image) used across members / account / org
+export function Avatar({ initials, tone, size = 28, src }: { initials: string; tone?: string; size?: number; src?: string }) {
+  if (src) {
+    return (
+      <span
+        className="flex shrink-0 rounded-full bg-cover bg-center"
+        style={{ width: size, height: size, backgroundImage: `url(${src})` }}
+      />
+    );
+  }
   return (
     <span
       className={cn(
