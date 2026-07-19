@@ -1,7 +1,7 @@
-import { ComingSoon } from "@/components/coming-soon";
+import { IssuesView } from "@/components/issues/issues-view";
 
 export const metadata = { title: "Issues" };
 
 export default function IssuesPage() {
-  return <ComingSoon title="Issues" subtitle="Every error across your projects" />;
+  return <IssuesView />;
 }

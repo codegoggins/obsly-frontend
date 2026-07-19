@@ -3,6 +3,7 @@ import { series } from "@/lib/series";
 
 export type IssueLevel = "error" | "warning";
 export type IssueStatus = "unresolved" | "resolved";
+export type IssueOrigin = "frontend" | "backend";
 
 export type Issue = {
   id: string;
@@ -11,6 +12,9 @@ export type Issue = {
   type: string;
   level: IssueLevel;
   status: IssueStatus;
+  origin: IssueOrigin;
+  handled: boolean;
+  assignee: "mara" | "dev" | null;
   events: number;
   users: number;
   env: string;
@@ -29,6 +33,9 @@ export const ISSUES: Issue[] = [
     type: "TypeError",
     level: "error",
     status: "unresolved",
+    origin: "frontend",
+    handled: false,
+    assignee: null,
     events: 1248,
     users: 412,
     env: "production",
@@ -45,6 +52,9 @@ export const ISSUES: Issue[] = [
     type: "PaymentDeclinedError",
     level: "error",
     status: "unresolved",
+    origin: "backend",
+    handled: true,
+    assignee: "mara",
     events: 643,
     users: 287,
     env: "production",
@@ -61,6 +71,9 @@ export const ISSUES: Issue[] = [
     type: "TimeoutError",
     level: "error",
     status: "unresolved",
+    origin: "backend",
+    handled: false,
+    assignee: null,
     events: 318,
     users: 96,
     env: "production",
@@ -77,6 +90,9 @@ export const ISSUES: Issue[] = [
     type: "Warning",
     level: "warning",
     status: "unresolved",
+    origin: "frontend",
+    handled: true,
+    assignee: null,
     events: 209,
     users: 188,
     env: "staging",
@@ -93,6 +109,9 @@ export const ISSUES: Issue[] = [
     type: "NetworkError",
     level: "warning",
     status: "unresolved",
+    origin: "frontend",
+    handled: true,
+    assignee: "dev",
     events: 174,
     users: 140,
     env: "production",
@@ -109,6 +128,9 @@ export const ISSUES: Issue[] = [
     type: "RangeError",
     level: "error",
     status: "resolved",
+    origin: "backend",
+    handled: false,
+    assignee: "mara",
     events: 88,
     users: 41,
     env: "production",

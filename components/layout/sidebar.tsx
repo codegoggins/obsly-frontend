@@ -7,6 +7,7 @@ import { clearToken } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/logo";
 import { LiveDot } from "@/components/live-dot";
+import { OrgSwitcher } from "@/components/layout/org-switcher";
 
 const NAV = [
   { href: "/", label: "Overview", icon: LayoutGrid },
@@ -33,6 +34,10 @@ export function Sidebar() {
     <aside className="hidden h-full w-60 shrink-0 flex-col border-r border-border bg-card/40 md:flex">
       <div className="flex h-14 items-center px-4">
         <Logo />
+      </div>
+
+      <div className="px-3 pb-2">
+        <OrgSwitcher />
       </div>
 
       <nav className="flex-1 space-y-0.5 px-3 py-2">
